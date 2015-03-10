@@ -2,7 +2,6 @@
 
 import os
 import logging
-from datetime import datetime as dt
 from thread_pool import *
 import time
 
@@ -12,27 +11,6 @@ logging.basicConfig(filename = logfile,
                     level = logging.DEBUG)
 
 times = {}
-
-
-def plot():
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    #thread count
-    tc = [x for x in times.keys()]
-    #average time
-    av = [sum(times[x])/ len(times[x]) for x in times.keys()]
-    #make tuple
-    data = zip(tc, av)
-    #labels
-    la = [l for l, t in data]
-    bar = plt.bar([x for x in range(1, int(max(av)))], av, 1, color='y')
-    plt.ylabel('time in seconds')
-    plt.xlabel('thread count')
-
-    plt.savefig('test.png')
-
-
 
 def do_nothing(threads):
     start = time.time()
