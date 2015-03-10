@@ -1,23 +1,24 @@
 #!/usr/bin/env python
 
-import os
 import logging
 from thread_pool import *
 import time
+from threshold import Threshold
 
-logfile = 'register.log'
+logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
                     format='(%(threadName)-10s) %(message)s',
                     level = logging.DEBUG)
 
 times = {}
+# Set whether or not to go past peak performance.
+overload = False
 
 def do_nothing(threads):
     start = time.time()
     time.sleep(.2)
     end = time.time()
     times[threads].append(end - start)
-
 
 if __name__=='__main__':
     #define max threads to use
@@ -43,5 +44,3 @@ if __name__=='__main__':
     for n in pool_size:
         print '%s threads did %s things in %.1f seconds: average is %.2f seconds per thing' % \
                                     (n, len(times[n]), sum(times[n]), sum(times[n])/len(times[n]))
-
-
