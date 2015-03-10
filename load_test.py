@@ -4,6 +4,7 @@ import logging
 from thread_pool import *
 import time
 from threshold import Threshold
+from xmlrpcload import xmlrpc_call
 
 logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
@@ -14,9 +15,9 @@ times = {}
 # Set whether or not to go past peak performance.
 overload = False
 
-def do_nothing(threads):
+def time_event(function, threads):
     start = time.time()
-    time.sleep(.2)
+    function()
     end = time.time()
     times[threads].append(end - start)
 
@@ -36,7 +37,7 @@ if __name__=='__main__':
         clients = i * count
         while clients:
             #Change do_nothing to your desired function... 
-            pool.add_task(do_nothing, i)
+            pool.add_task(time_event, xmlrpc_call, i )
             clients -= 1
 
         pool.wait_completion()
