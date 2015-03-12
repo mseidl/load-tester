@@ -3,7 +3,7 @@
 import sys
 import socket
 
-HOST = socket.gethostname()
+HOST = ''
 PORT = 8001
 
 try:
@@ -22,10 +22,9 @@ sock.listen(15)
 
 while True:
     connection, address = sock.accept()
-    buff = connection.recv(128)
+    buff = connection.recv(8192)
     if buff > 0:
         print buff
-        break
 
 sock.shutdown()
 sock.close()
