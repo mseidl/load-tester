@@ -3,7 +3,7 @@
 import sys
 import socket
 
-HOST = ''
+HOST = socket.gethostname()
 PORT = 8001
 
 try:
@@ -27,4 +27,5 @@ while True:
         print buff
         break
 
+sock.shutdown()
 sock.close()
