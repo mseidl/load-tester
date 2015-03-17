@@ -5,9 +5,6 @@ from thread_pool import *
 import time
 from threshold import Threshold
 from xmlrpcload import xmlrpc_call
-import socket
-
-hostname = socket.gethostname()
 
 logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
