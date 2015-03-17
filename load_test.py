@@ -25,9 +25,14 @@ mutex = Lock()
 # Error count
 errors = Error()
 
+# Clients
+total_clients = 0
+sched_clients = 0
+
 def quit():
     """Report results and exit"""
-
+    print "There were clients scheduled: %s, and %s ran" % (sched_clients, total_clients)
+    print "There were %s errors" % errors.error_count
     for thread_c, time_list in times.iteritems():
         if time_list:
             print '%s threads did %s things in %.1f seconds: average is %.2f seconds per thing' % \
@@ -55,10 +60,12 @@ if __name__=='__main__':
         pool = ThreadPool(i)
         # Clients is the final goal, so it'll increase the number of threads till this number is 0
         clients = i * count
+        sched_clients += clients
         while clients:
             # Change to your desired function... 
             pool.add_task(time_event, xmlrpc_call, i )
             clients -= 1
+            total_clients += 1
             if errors.error_count > errors_threshold:
                 quit()
         pool.wait_completion()
