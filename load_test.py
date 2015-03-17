@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from config import *
+import sys
 import logging
 from thread_pool import *
 import time
@@ -33,6 +34,7 @@ def quit():
                                     (thread_c, len(time_list), sum(time_list), sum(time_list)/len(time_list))
         else:
             print "Nothing happened with %s threads" % thread_c
+    sys.exit()
 
 def time_event(function, threads):
     global errors
