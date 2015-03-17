@@ -13,9 +13,21 @@ logging.basicConfig(filename = logfile,
 
 # Store dict of times, which will have keys of the thread count.
 times = {}
+# Store thread counts that will be run
+pool_size = []
 
 # Error count
 errors = 0
+
+def quit():
+    """Report results and exit"""
+
+    for thread_c, time_list in times.iteritems():
+        if time_list:
+            print '%s threads did %s things in %.1f seconds: average is %.2f seconds per thing' % \
+                                    (thread_c, len(time_list), sum(time_list), sum(time_list)/len(time_list))
+        else:
+            print "Nothing happened with %s threads" % thread_c
 
 def time_event(function, threads):
     global errors
@@ -40,9 +52,8 @@ if __name__=='__main__':
             pool.add_task(time_event, xmlrpc_call, i )
             clients -= 1
             print i, "    ", clients
-
+            if errors >= errors_threshold:
+                quit()
         pool.wait_completion()
 
-    for n in pool_size:
-        print '%s threads did %s things in %.1f seconds: average is %.2f seconds per thing' % \
-                                    (n, len(times[n]), sum(times[n]), sum(times[n])/len(times[n]))
+    quit()
