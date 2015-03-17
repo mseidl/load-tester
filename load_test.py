@@ -18,8 +18,9 @@ times = {}
 errors = 0
 
 def time_event(function, threads):
+    global errors
     start = time.time()
-    function()
+    function(errors)
     end = time.time()
     times[threads].append(end - start)
 
