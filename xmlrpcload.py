@@ -22,3 +22,5 @@ def xmlrpc_call(errors, mutex):
         with mutex:
             errors.inc()
         logging.error('Error #%d: %s' % (err.faultCode, err.faultString))
+    finally:
+        client.auth.logout(key)
