@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-from config import *
 import sys
 import logging
-from thread_pool import *
 import time
 from threading import Lock
-from threshold import Threshold
+
+from thread_pool import ThreadPool, Worker
 from xmlrpcload import xmlrpc_call
+from config import *
 from error import Error
 
 logfile = 'load-test.log'
@@ -50,7 +50,7 @@ def time_event(function, threads):
     times[threads].append(end - start)
 
 if __name__=='__main__':
-    # Define max threads to use
+    # Define max threads to use in config file
     # In range, start, end(plus 1 to include end) and steps
     pool_size = [x for x in range(min_thread, max_thread, thread_step)]
     # Create dict with thread sizes to keep track of time
@@ -58,12 +58,13 @@ if __name__=='__main__':
 
     for i in pool_size:
         pool = ThreadPool(i)
-        # Clients is the final goal, so it'll increase the number of threads till this number is 0
+        # Clients is the final goal, it'll run the thread count for "count" iterations
+        # count is from config
         clients = i * count
         sched_clients += clients
         while clients:
             # Change to your desired function... 
-            pool.add_task(time_event, xmlrpc_call, i )
+            pool.add_task(time_event, xmlrpc_call, i)
             clients -= 1
             total_clients += 1
             if errors.error_count > errors_threshold:
