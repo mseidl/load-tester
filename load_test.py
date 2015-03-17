@@ -3,8 +3,10 @@ from config import *
 import logging
 from thread_pool import *
 import time
+from threading import Lock
 from threshold import Threshold
 from xmlrpcload import xmlrpc_call
+from error import Error
 
 logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
@@ -16,8 +18,11 @@ times = {}
 # Store thread counts that will be run
 pool_size = []
 
+# Mutex
+mutex = Lock()
+
 # Error count
-errors = 0
+errors = Error()
 
 def quit():
     """Report results and exit"""
@@ -31,8 +36,9 @@ def quit():
 
 def time_event(function, threads):
     global errors
+    global mutex
     start = time.time()
-    function(errors)
+    function(errors, mutex)
     end = time.time()
     times[threads].append(end - start)
 
@@ -51,8 +57,7 @@ if __name__=='__main__':
             # Change to your desired function... 
             pool.add_task(time_event, xmlrpc_call, i )
             clients -= 1
-            print i, "    ", clients
-            if errors >= errors_threshold:
+            if errors.error_count > errors_threshold:
                 quit()
         pool.wait_completion()
 
