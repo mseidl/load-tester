@@ -29,12 +29,9 @@ def time_event(function, threads):
 if __name__=='__main__':
     # Define max threads to use
     # In range, start, end(plus 1 to include end) and steps
-    pool_size = [x for x in range(100, 110, 2)]
+    pool_size = [x for x in range(min_thread, max_thread, thread_step)]
     # Create dict with thread sizes to keep track of time
-    for _ in pool_size: times[_] = []
-
-    # Define pool mutliplier - this calls the pool_size * multiplier clients
-    count = 200
+    for thread_count in pool_size: times[thread_count] = []
 
     for i in pool_size:
         pool = ThreadPool(i)
