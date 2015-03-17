@@ -8,7 +8,7 @@ from xmlrpcload import xmlrpc_call
 
 logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
-                    format='(%(threadName)-10s) %(message)s',
+                    format='(%(threadName)-10s) %*(hostname) %(message)s',
                     level = logging.DEBUG)
 
 # Store dict of times, which will have keys of the thread count.
