@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from config import *
 import logging
 from thread_pool import *
 import time
@@ -16,8 +16,9 @@ logging.basicConfig(filename = logfile,
 
 # Store dict of times, which will have keys of the thread count.
 times = {}
-# Set whether or not to go past peak performance.
-overload = False
+
+# Error count
+errors = 0
 
 def time_event(function, threads):
     start = time.time()
