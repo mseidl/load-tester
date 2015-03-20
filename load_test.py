@@ -35,6 +35,7 @@ sched_clients = 0
 def quit():
     """Report results and exit"""
     print "There were clients scheduled: %s, and %s ran" % (sched_clients, total_clients)
+    print ovrld
     print "There were %s errors" % errors.error_count
     for thread_c, time_list in times.iteritems():
         if time_list:
