@@ -16,7 +16,7 @@ logging.basicConfig(filename = logfile,
                     level = logging.DEBUG)
 
 # Overload object to test overloady-ness
-ovrld = Overload()
+ovrld = Overload(max_threshold, overload)
 # Store dict of times, which will have keys of the thread count.
 times = {}
 # Store thread counts that will be run
@@ -60,7 +60,10 @@ if __name__=='__main__':
     for thread_count in pool_size: times[thread_count] = []
 
     for i in pool_size:
+        if ovrld.overloaded:
+            i = ovrld.opt_work_threads
         pool = ThreadPool(i)
+
         # Clients is the final goal, it'll run the thread count for "count" iterations
         # count is from config
         clients = i * count
