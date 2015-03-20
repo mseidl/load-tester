@@ -8,12 +8,15 @@ from thread_pool import ThreadPool, Worker
 from xmlrpcload import xmlrpc_call
 from config import *
 from error import Error
+from overload import Overload
 
 logfile = 'load-test.log'
 logging.basicConfig(filename = logfile,
                     format='(%(threadName)-10s) %*(hostname) %(message)s',
                     level = logging.DEBUG)
 
+# Overload object to test overloady-ness
+ovrld = Overload()
 # Store dict of times, which will have keys of the thread count.
 times = {}
 # Store thread counts that will be run
@@ -70,5 +73,7 @@ if __name__=='__main__':
             if errors.error_count > errors_threshold:
                 quit()
         pool.wait_completion()
+        avg_time = sum(times[i]) / len(times[i])
+        ovrld.calc_time(avg_time, i)
 
     quit()
