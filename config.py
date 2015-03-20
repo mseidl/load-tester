@@ -1,7 +1,6 @@
 # Config file
-import socket
-
 # Get hostname
+import socket
 hostname = socket.gethostname()
 
 # xmlrpc server, credentials
@@ -11,6 +10,8 @@ password = ''
 
 # Set whether or not to overload server
 overload = False
+# How far past peak performance should we go (int)
+max_threshold = 0
 
 # How many errors to tolerate before we call it quits
 errors_threshold = 100
