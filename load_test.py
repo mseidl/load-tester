@@ -53,6 +53,15 @@ def time_event(function, threads):
     end = time.time()
     times[threads].append(end - start)
 
+def calculate_needed():
+    if ovrld.overloaded:
+        max = ovrld.opt_work_threads
+    else:
+        max = pool_size[-1]
+    scheduled = sum(pool_size) * count
+    difference = need_count - scheduled
+    return difference / max
+
 if __name__=='__main__':
     # Define max threads to use in config file
     # In range, start, end(plus 1 to include end) and steps
@@ -63,11 +72,16 @@ if __name__=='__main__':
     for i in pool_size:
         if ovrld.overloaded:
             i = ovrld.opt_work_threads
+        if need_count and i == pool_size[-1] \
+                or need_count and ovrld.overloaded and i == ovrld.opt_work_threads:
+            clients = i * calculate_needed()
+        else:
+            clients= i * count
+
         pool = ThreadPool(i)
 
         # Clients is the final goal, it'll run the thread count for "count" iterations
         # count is from config
-        clients = i * count
         sched_clients += clients
         while clients:
             # Change to your desired function... 
