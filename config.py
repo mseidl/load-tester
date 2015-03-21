@@ -26,3 +26,8 @@ thread_step = 2
 # Define pool mutliplier - this calls the pool_size * multiplier clients
 # So, for every thread step it will run X times.  
 count = 200
+
+# Events done
+# This sets a number that will be acheived.  If you have need to do a
+# certain number of things, this will do it regardless of thread counts.
+need_count = 0
