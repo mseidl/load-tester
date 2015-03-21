@@ -21,8 +21,13 @@ errors_threshold = (integer)
   number in the low 100s would be fine.  But you'll have to test it out and
   see how many errors you're getting.
 
+need_count = (integer)
+  This sets a goal to reach in terms of how many times your action is done.
+  If you enter in a thread count that doesn't reach your goal, it automatically
+  adjusts the final count to acheive your goal.
+
 Future Plans/TODO:
 Server/Client architecture
 Add kill switch to overload class(don't self-optimize)
-Add handling for fixed number of jobs
+Add handling for fixed number of jobs #done
 Add random/record/replay features of logs
