@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import logging
+import logging.handlers
 import time
 from threading import Lock
 
@@ -10,10 +11,25 @@ from config import *
 from error import Error
 from overload import Overload
 
+# Log files
 logfile = 'load-test.log'
-logging.basicConfig(filename = logfile,
-                    format='(%(threadName)-10s) %*(hostname) %(message)s',
-                    level = logging.DEBUG)
+xmllogfile = 'xml_call_%s' % time.strftime('%d-%m_%H-%M')
+
+# Logger objects
+general_log = logging.getLogger('general_log')
+xmlcall_log = logging.getLogger('xmlcall_log')
+
+# Sets formatting and allows to log to 2 separate files
+gen_handler = logging.handlers.RotatingFileHandler(logfile)
+xml_handler = logging.handlers.RotatingFileHandler(xmllogfile)
+gen_format = logging.Formatter('(%(threadName)-10s) %*(hostname) %(message)s')
+xml_format = logging.Formatter('(%(threadName)-10s) %*(hostname) %(message)s |||')
+
+gen_handler.setFormatter(gen_format)
+xml_handler.setFormatter(xml_format)
+general_log.addHandler(gen_handler)
+xmlcall_log.addHandler(xml_handler)
+
 
 # Overload object to test overloady-ness
 ovrld = Overload(max_threshold, overload)

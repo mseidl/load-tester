@@ -2,9 +2,6 @@ import xmlrpclib
 import logging
 from config import *
 
-logfile = 'xmlrpc.log'
-logging.basicConfig(filename = logfile, level = logging.DEBUG)
-
 def xmlrpc_call(errors, mutex):
     """Make xmlrpc calls to generate load"""
 
@@ -15,7 +12,7 @@ def xmlrpc_call(errors, mutex):
 
         #client.channel.listAllChannels(key)
         client.activationkey.create(key, "", "description", "", [], False)
-        print "Got list ok"
+        xmlcall_log.INFO('called a function')
     except xmlrpclib.Fault, err:
         logging.error('Error #%d: %s' % (err.faultCode, error.faultString))
     except socket.error, err:
